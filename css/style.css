@@ -1,0 +1,28 @@
+.article-header-img {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+
+.article-header-bg {
+    position: relative;
+}
+
+.article-header-bg::before {
+    content: '';
+    position: absolute;
+    top: 0; 
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.2);
+}
+
+.article-header {
+    position: relative;
+    height: 345px;
+    width: 100%;
+    display: inline-block;
+
+    color: #fff;
+}
