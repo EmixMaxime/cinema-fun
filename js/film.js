@@ -1,5 +1,6 @@
 var find = "movie",
-    loader = $('#loader').slideDown();
+    loader = $('#loader').slideDown()
+    films = $('#films');
 
 $( document ).ready(function() {
     loader.slideUp() // remove loader when page's ready
@@ -23,63 +24,72 @@ $( document ).ready(function() {
     });
 
     showFavorites()
+
+    films.slideDown() // show films
 });
 
 function search(){ // themovieDB api call to find a film
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "https://api.themoviedb.org/3/search/"+ find +"?include_adult=false&query="+$('#search').val()+"&language=fr&api_key=34450d3b715a46959f480801c2baf21e",
-        "method": "GET",
-        "headers": {},
-        "data": "{}"
-    };
+    loader.slideDown() // enable loader
+    films.slideUp(function () { // hide films then
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "https://api.themoviedb.org/3/search/"+ find +"?include_adult=false&query="+$('#search').val()+"&language=fr&api_key=34450d3b715a46959f480801c2baf21e",
+            "method": "GET",
+            "headers": {},
+            "data": "{}"
+        };
 
-    $.ajax(settings).done(function (response) {
-        loader.slideDown(); // enable loader
-        var i = 0; // film card counter
-        $('#films').empty(); // empty film div
-        $.each(response.results, function(i, item) {
-            if(find==='person')
-                $('#films').append(createCards(response.results[0].known_for[i], false)); // show films searched actor is known for
-            else
-                $('#films').append(createCards(response.results[i], false)); // show films which correspond to the search
-            i++;
-            if(i===3){ // fixes the box sizes bug
-                i=0;
-                $('#films').append('<div class="clearfix"></div>');
-            }
+        $.ajax(settings).done(function (response) {
+            var i = 0 // film card counter
+            $('#films').empty() // empty film div
+            $.each(response.results, function(i, item) {
+                if(find==='person')
+                    $('#films').append(createCards(response.results[0].known_for[i], false)); // show films searched actor is known for
+                else
+                    $('#films').append(createCards(response.results[i], false)); // show films which correspond to the search
+                i++;
+                if(i===3){ // fixes the box sizes bug
+                    i=0;
+                    $('#films').append('<div class="clearfix"></div>');
+                }
+            });
+            loader.slideUp(function () {
+                films.slideDown() // show div
+            }); // remove loader
         });
-        loader.slideUp(); // remove loader
-    });
+    })
 }
 
 function showFavorites(){ // list films from favorite.json and retrieve from GET movie method
-    loader.slideDown();
-    var i = 0;
-    $.getJSON('favorite.json?'+Math.floor(Math.random() * 100),function(favorites){
-        $('#films').empty();
-        $.each(favorites,function(index,d){ // for each favorite
-            var settings = {
-                "async": true,
-                "crossDomain": true,
-                "url": "https://api.themoviedb.org/3/movie/"+d+"?api_key=34450d3b715a46959f480801c2baf21e",
-                "method": "GET",
-                "headers": {},
-                "data": "{}"
-            };
+    loader.slideDown() // show loader
+    films.slideUp(function () { // hide films then
+        var i = 0;
+        $.getJSON('favorite.json?'+Math.floor(Math.random() * 100),function(favorites){
+            films.empty();
+            $.each(favorites,function(index,d){ // for each favorite
+                var settings = {
+                    "async": true,
+                    "crossDomain": true,
+                    "url": "https://api.themoviedb.org/3/movie/"+d+"?api_key=34450d3b715a46959f480801c2baf21e",
+                    "method": "GET",
+                    "headers": {},
+                    "data": "{}"
+                };
 
-            $.ajax(settings).done(function(response){ // call GET movie API for this ID
-                $('#films').append(createCards(response, true));
+                $.ajax(settings).done(function(response){ // call GET movie API for this ID
+                    films.append(createCards(response, true));
+                });
+                i++;
+                if(i===3){ // see @line48
+                    i=0;
+                    films.append('<div class="clearfix"></div>');
+                }
             });
-            i++;
-            if(i===3){ // see @line48
-                i=0;
-                $('#films').append('<div class="clearfix"></div>');
-            }
+            loader.slideUp()
+            films.slideDown()
         });
-        loader.slideUp();
-    });
+    })
 }
 
 function createCards(json, favorite){ // create card

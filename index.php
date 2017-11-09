@@ -31,7 +31,7 @@
                 <i class="material-icons">close</i>
             </div>
         </form>
-        <a class='dropdown-button' href='#' data-activates='dropdown1' style="width:4%; float: right; text-align: right; padding-right: 16px; background-color: rgba(255,255,255,.1);"><i class="material-icons" id="icon">local_movies</i></a>
+        <a class='dropdown-button' href='#' data-activates='dropdown1'><i class="material-icons" id="icon">local_movies</i></a>
         <ul id='dropdown1' class='dropdown-content'>
             <li><a href="#" id="movie"><i class="small material-icons">local_movies</i></a></li>
             <li class="divider"></li>
