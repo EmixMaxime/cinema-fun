@@ -15,9 +15,7 @@
             $tab2 = array($_GET['id']);
             $tab = array_merge($tab1,$tab2);
             $tab = json_encode($tab);
-            $test = fopen('favorite.json','r+');
-            fputs($test,$tab);
-            fclose($test);
+            file_put_contents(realpath('./favorite.json'),$tab);
             $return = 'ok';
         }
     }

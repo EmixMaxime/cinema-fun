@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,19 +13,30 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <title>materialize</title>
+    <title>Cinéma-Fun</title>
 </head>
 
 <body>
+
+<div class="progress" id="loader" style="margin:0">
+    <div class="indeterminate"></div>
+</div>
+
 <nav>
     <div class="nav-wrapper">
-        <form>
+        <form style="width:96%; float: left;">
             <div class="input-field">
                 <input id="search" type="search" required>
                 <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                 <i class="material-icons">close</i>
             </div>
         </form>
+        <a class='dropdown-button' href='#' data-activates='dropdown1' style="width:4%; float: right; text-align: right; padding-right: 16px; background-color: rgba(255,255,255,.1);"><i class="material-icons" id="icon">local_movies</i></a>
+        <ul id='dropdown1' class='dropdown-content'>
+            <li><a href="#" id="movie"><i class="small material-icons">local_movies</i></a></li>
+            <li class="divider"></li>
+            <li><a href="#" id="person"><i class="small material-icons">create</i></a></li>
+        </ul>
     </div>
 </nav>
 

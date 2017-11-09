@@ -1,37 +1,61 @@
+var find = "movie",
+    loader = $('#loader').slideDown();
+
 $( document ).ready(function() {
+    loader.slideUp();
+
+    $('#movie').click(function () {
+        $('#icon').html('local_movies')
+        find = 'movie'
+        search()
+    });
+    $('#person').click(function () {
+        $('#icon').html('create')
+        find = 'person'
+        search()
+    });
+
+    $('#search').keyup(function() {
+        if($('#search').val().length >2)
+            search()
+        else
+            showFavorites();
+    });
+
     showFavorites();
-
 });
 
-$('#search').keyup(function() {
-    if($('#search').val().length >2){
-        var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "https://api.themoviedb.org/3/search/movie?include_adult=false&page=1&query="+$('#search').val()+"&language=fr&api_key=34450d3b715a46959f480801c2baf21e",
-            "method": "GET",
-            "headers": {},
-            "data": "{}"
-        };
+function search(){
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://api.themoviedb.org/3/search/"+ find +"?include_adult=false&query="+$('#search').val()+"&language=fr&api_key=34450d3b715a46959f480801c2baf21e",
+        "method": "GET",
+        "headers": {},
+        "data": "{}"
+    };
 
-        $.ajax(settings).done(function (response) {
-            var i = 0;
-            $('#films').empty();
-            $.each(response.results, function(i, item) {
+    $.ajax(settings).done(function (response) {
+        loader.slideDown();
+        var i = 0;
+        $('#films').empty();
+        $.each(response.results, function(i, item) {
+            if(find==='person')
+                $('#films').append(createCards(response.results[0].known_for[i]));
+            else
                 $('#films').append(createCards(response.results[i]));
-                i++;
-                if(i===2){
-                    i=0;
-                    $('#films').append('<div class="clearfix"></div>');
-                }
-            });
+            i++;
+            if(i===3){
+                i=0;
+                $('#films').append('<div class="clearfix"></div>');
+            }
         });
-    }
-    else
-        showFavorites();
-});
+        loader.slideUp();
+    });
+}
 
 function showFavorites(){
+    loader.slideDown();
     var i = 0;
     $.getJSON('favorite.json?'+Math.floor(Math.random() * 100),function(favorites){
         $('#films').empty();
@@ -55,13 +79,14 @@ function showFavorites(){
                 $('#films').append('<div class="clearfix"></div>');
             }
         });
+        loader.slideUp();
     });
 }
 
 function createCards(json){
 
     if(json.title.length>25)
-        json.title = json.title.substring(0, 30) + "...";
+        json.title = json.title.substring(0, 25) + "...";
     if(!json.backdrop_path)
         var img = "img/default.jpg";
     else
