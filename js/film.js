@@ -2,7 +2,7 @@ var find = "movie",
     loader = $('#loader').slideDown();
 
 $( document ).ready(function() {
-    loader.slideUp();
+    loader.slideUp()
 
     $('#movie').click(function () {
         $('#icon').html('local_movies')
@@ -19,10 +19,10 @@ $( document ).ready(function() {
         if($('#search').val().length >2)
             search()
         else
-            showFavorites();
+            showFavorites()
     });
 
-    showFavorites();
+    showFavorites()
 });
 
 function search(){
@@ -41,9 +41,9 @@ function search(){
         $('#films').empty();
         $.each(response.results, function(i, item) {
             if(find==='person')
-                $('#films').append(createCards(response.results[0].known_for[i]));
+                $('#films').append(createCards(response.results[0].known_for[i], false));
             else
-                $('#films').append(createCards(response.results[i]));
+                $('#films').append(createCards(response.results[i], false));
             i++;
             if(i===3){
                 i=0;
@@ -70,10 +70,9 @@ function showFavorites(){
             };
 
             $.ajax(settings).done(function(response){
-                $('#films').append(createCards(response));
+                $('#films').append(createCards(response, true));
             });
             i++;
-            console.log(i);
             if(i===2){
                 i=0;
                 $('#films').append('<div class="clearfix"></div>');
@@ -83,7 +82,7 @@ function showFavorites(){
     });
 }
 
-function createCards(json){
+function createCards(json, favorite){
 
     if(json.title.length>25)
         json.title = json.title.substring(0, 25) + "...";
@@ -93,21 +92,24 @@ function createCards(json){
         var img = "https://image.tmdb.org/t/p/w500/"+json.backdrop_path;
 
     var box = '';
-    box += '<div class="col s12 m4">';
-    box += '<div class="card">';
-    box += '<div class="card-image waves-effect waves-block waves-light">';
-    box += '<img class="activator" src="'+ img +'">';
-    box += '</div>';
-    box += '<div class="card-content">';
-    box += '<span class="card-title activator grey-text text-darken-4">'+ json.title +'</span>';
-    box += '<p><a href="addfavorite.php?id='+json.id+'" id="add" class="favorite">&hearts; Ajouter</a></p>';
-    box += '</div>';
-    box += ' <div class="card-reveal">';
-    box += '<span class="card-title grey-text text-darken-4">'+ json.title +'<i class="material-icons right">close</i></span>';
-    box += '<p>'+json.overview+'</p>';
-    box += '</div>';
-    box += '</div>';
-    box += '</div>';
+    box += '<div class="col s12 m4">'
+    box += '<div class="card">'
+    box += '<div class="card-image waves-effect waves-block waves-light">'
+    box += '<img class="activator" src="'+ img +'">'
+    box += '</div>'
+    box += '<div class="card-content">'
+    box += '<span class="card-title activator grey-text text-darken-4">'+ json.title +'</span>'
+    if(favorite)
+        box += '<p><a href="favorites.php?action=del&id='+json.id+'" class="favorite">&#x1f494; Retirer</a></p>'
+    else
+        box += '<p><a href="favorites.php?action=add&id='+json.id+'" class="favorite">&hearts; Ajouter</a></p>'
+    box += '</div>'
+    box += ' <div class="card-reveal">'
+    box += '<span class="card-title grey-text text-darken-4">'+ json.title +'<i class="material-icons right">close</i></span>'
+    box += '<p>'+json.overview+'</p>'
+    box += '</div>'
+    box += '</div>'
+    box += '</div>'
 
     return box;
 }

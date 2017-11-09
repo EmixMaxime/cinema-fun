@@ -49,12 +49,13 @@
         <div class="row">
             <div class="col l6 s12">
                 <h5 class="white-text">Cinema-Fun</h5>
-                <p class="grey-text text-lighten-4">Bravo ! Ce site est fonctionnel !!!</p>
+                <p class="grey-text text-lighten-4">Super site réalisé dans le cadre du cours de méthodologie ! On a même utilisé le <b>PUTAIN DE PHP DE MERDE !!!</b></p>
             </div>
             <div class="col l4 offset-l2 s12">
                 <h5 class="white-text">Liens</h5>
                 <ul>
-                    <li><a class="grey-text text-lighten-3" href="#">Link 1</a></li>
+                    <li><a class="grey-text text-lighten-3" href="index.php">Accueil</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://www.themoviedb.org/" target="_blank">themovieDB</a></li>
                 </ul>
             </div>
         </div>
@@ -62,7 +63,7 @@
     <div class="footer-copyright">
         <div class="container">
             &copy; 2017 Cinéma Fun
-            <a class="grey-text text-lighten-4 right" href="#">More Links</a>
+            <a class="grey-text text-lighten-4 right" href="http://iut.univ-littoral.fr/AEIC/" target="_blank">AEIC</a>
         </div>
     </div>
 </footer>
