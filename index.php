@@ -18,8 +18,8 @@
 
 <body>
 
-<div class="progress" id="loader" style="margin:0">
-    <div class="indeterminate"></div>
+<div class="progress" style="margin:0">
+    <div class="indeterminate" id="loader"></div>
 </div>
 
 <nav>
